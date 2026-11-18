@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	mark "github.com/kovetskiy/mark/v17"
+	"github.com/kovetskiy/mark/v17/confluence"
 	"github.com/kovetskiy/mark/v17/export"
 	"github.com/kovetskiy/mark/v17/mermaid"
 	"github.com/kovetskiy/mark/v17/metadata"
@@ -471,7 +472,7 @@ func RunExport(ctx context.Context, cmd *cli.Command) error {
 	baseURL := cmd.String("base-url")
 
 	if address := page["url"]; address != "" {
-		ref, err := export.ParsePageURL(address)
+		ref, err := confluence.ParsePageURL(address)
 		if err != nil {
 			return err
 		}
@@ -489,7 +490,7 @@ func RunExport(ctx context.Context, cmd *cli.Command) error {
 	// A page URL the command line set aside still names the instance, so its
 	// host serves when no base URL is configured.
 	if baseURL == "" && page["url"] == "" {
-		if ref, err := export.ParsePageURL(cmd.String("url")); err == nil {
+		if ref, err := confluence.ParsePageURL(cmd.String("url")); err == nil {
 			baseURL = ref.BaseURL
 		}
 	}
